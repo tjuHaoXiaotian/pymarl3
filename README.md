@@ -1,5 +1,7 @@
 # Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks
 
+:rocket: Achieve State-Of-The-Art Performance on SMAC.
+
 ## 1. Model Architecture of HyPerNetwork (HPN)
 
 ![Agent permutation invariant network with hypernetworks](./doc/figure/API-HPN.png)
