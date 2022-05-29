@@ -50,6 +50,15 @@ corresponding RL loss function.
 
 ## 2. Experimental Results
 
+
+We mainly evaluate our methods on the challenging StarCraft II micromanagement benchmark [(SMAC)](https://github.com/oxwhirl/smac).
+
+****
+
+```
+StarCraft 2 version: SC2.4.10. difficulty: 7.
+```
+
 | Senarios       | Difficulty |               HPN-QMIX              |
 |----------------|:----------:|:----------------------------------:|
 | 8m_vs_9m           |  Hard |          **100%**          |
