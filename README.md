@@ -48,14 +48,6 @@ corresponding RL loss function.
 
 ## 2. Experimental Results
 
-### 2.1 Applying HPN to fine-tuned VDN and QMIX.
-
-![The Full Comparison of HPN with SOTA on SMAC](./doc/figure/exp_comparison_with_SOTA.png)
-
-### 2.2 Comparison with baselines considering permutation invariance or permutation equivariance property
-
-![Comparison with Related Baselines](./doc/figure/exp_comparison_with_baselines.png)
-
 | Senarios       | Difficulty |               HPN-QMIX              |
 |----------------|:----------:|:----------------------------------:|
 | 8m_vs_9m           |  Hard |          **100%**          |
@@ -68,6 +60,19 @@ corresponding RL loss function.
 | 3s5z_vs_3s6z | Super Hard |**100%** |
 | 27m_vs_30m   | Super Hard |          **100%**          |
 | 6h_vs_8z     | Super Hard |  **98%**  |
+
+### 2.1 Applying HPN to fine-tuned VDN and QMIX.
+
+![Applying HPN to fine-tuned VDN and QMIX](./doc/figure/exp_comparison_with_SOTA.png)
+
+### 2.2 Applying HPN to QPLEX and MAPPO.
+
+![Applying HPN to QPLEX](./doc/figure/HPN-QPLEX.png)
+![Applying HPN to MAPPO](./doc/figure/HPN-mappo.png)
+
+### 2.3 Comparison with baselines considering permutation invariance or permutation equivariance property
+
+![Comparison with Related Baselines](./doc/figure/exp_comparison_with_baselines.png)
 
 ## 3. How to use the code?
 
