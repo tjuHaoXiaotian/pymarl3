@@ -1,0 +1,38 @@
+# --- QMIX specific parameters ---
+
+# use epsilon greedy action selector
+action_selector: "epsilon_greedy"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 100000 # 500000 for 6h_vs_8z
+
+runner: "parallel"
+batch_size_run: 8
+buffer_size: 5000
+batch_size: 128
+
+t_max: 10050000
+
+# update the target network every {} episodes
+target_update_interval: 200
+
+# use the Q_Learner to train
+mac: "updet_mac"
+agent: "updet_agent"
+
+agent_output_type: q
+# %%%%%%%%%%%%% Transformer Settings %%%%%%%%%%%
+transformer_embed_dim: 32
+transformer_heads: 3  # head number of transformer
+transformer_depth: 2  # block number of transformer
+
+learner: "nq_learner"
+mixer: "vdn"
+mixing_embed_dim: 32
+hypernet_embed: 64
+lr: 0.001 # Learning rate for agents
+td_lambda: 0.6
+optimizer: 'adam'
+q_lambda: False
+
+name: "updet_vdn"

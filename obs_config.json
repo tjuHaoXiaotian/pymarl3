@@ -1,0 +1,329 @@
+{
+    "2c_vs_64zg_obs" : {
+        "model_input_size": 404, 
+        "env_obs_size": 332, 
+        "n_agent": 2, 
+        "n_enemy": 64, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [64, 5]}, 
+            "2": {"name": "ally_feats", "size": [1, 6]}, 
+            "3": {"name": "own_feats", "size": 2}, 
+            "4": {"name": "last_action", "size": 70}, 
+            "5": {"name": "agent_id", "size": 2}
+        }
+    },
+
+    "2m_vs_1z_obs" : {
+        "model_input_size": 25, 
+        "env_obs_size": 16, 
+        "n_agent": 2, 
+        "n_enemy": 1, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [1, 6]}, 
+            "2": {"name": "ally_feats", "size": [1, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 7}, 
+            "5": {"name": "agent_id", "size": 2}
+        }
+    },
+
+    "2s_vs_1sc_obs" : {
+        "model_input_size": 26, 
+        "env_obs_size": 17, 
+        "n_agent": 2, 
+        "n_enemy": 1, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [1, 5]}, 
+            "2": {"name": "ally_feats", "size": [1, 6]}, 
+            "3": {"name": "own_feats", "size": 2}, 
+            "4": {"name": "last_action", "size": 7}, 
+            "5": {"name": "agent_id", "size": 2}
+        }
+    },
+
+    "2s3z_obs" : {
+        "model_input_size": 96, 
+        "env_obs_size": 80, 
+        "n_agent": 5, 
+        "n_enemy": 5, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [5, 8]}, 
+            "2": {"name": "ally_feats", "size": [4, 8]}, 
+            "3": {"name": "own_feats", "size": 4}, 
+            "4": {"name": "last_action", "size": 11}, 
+            "5": {"name": "agent_id", "size": 5}
+        }
+    },
+
+    "3m_obs" : {
+        "model_input_size": 42, 
+        "env_obs_size": 30, 
+        "n_agent": 3, 
+        "n_enemy": 3, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [3, 5]}, 
+            "2": {"name": "ally_feats", "size": [2, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 9}, 
+            "5": {"name": "agent_id", "size": 3}
+        }
+    },
+
+    "3s_vs_3z_obs" : {
+        "model_input_size": 48, 
+        "env_obs_size": 36, 
+        "n_agent": 3, 
+        "n_enemy": 3, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [3, 6]}, 
+            "2": {"name": "ally_feats", "size": [2, 6]}, 
+            "3": {"name": "own_feats", "size": 2}, 
+            "4": {"name": "last_action", "size": 9}, 
+            "5": {"name": "agent_id", "size": 3}
+        }
+    },
+
+    "3s_vs_4z_obs" : {
+        "model_input_size": 55, 
+        "env_obs_size": 42, 
+        "n_agent": 3, 
+        "n_enemy": 4, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [4, 6]}, 
+            "2": {"name": "ally_feats", "size": [2, 6]}, 
+            "3": {"name": "own_feats", "size": 2}, 
+            "4": {"name": "last_action", "size": 10}, 
+            "5": {"name": "agent_id", "size": 3}
+        }
+    },
+
+    "3s_vs_5z_obs" : {
+        "model_input_size": 62, 
+        "env_obs_size": 48, 
+        "n_agent": 3, 
+        "n_enemy": 5, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [5, 6]}, 
+            "2": {"name": "ally_feats", "size": [2, 6]}, 
+            "3": {"name": "own_feats", "size": 2}, 
+            "4": {"name": "last_action", "size": 11}, 
+            "5": {"name": "agent_id", "size": 3}
+        }
+    },
+
+    "3s5z_obs" : {
+        "model_input_size": 150, 
+        "env_obs_size": 128,
+        "n_agent": 8, 
+        "n_enemy": 8, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [8, 8]}, 
+            "2": {"name": "ally_feats", "size": [7, 8]}, 
+            "3": {"name": "own_feats", "size": 4}, 
+            "4": {"name": "last_action", "size": 14}, 
+            "5": {"name": "agent_id", "size": 8}
+        }
+    },
+
+    "3s5z_vs_3s6z_obs" : {
+        "model_input_size": 159, 
+        "env_obs_size": 136, 
+        "n_agent": 8, 
+        "n_enemy": 9, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [9, 8]}, 
+            "2": {"name": "ally_feats", "size": [7, 8]}, 
+            "3": {"name": "own_feats", "size": 4}, 
+            "4": {"name": "last_action", "size": 15}, 
+            "5": {"name": "agent_id", "size": 8}
+        }
+    },
+
+    "5m_vs_6m_obs" : {
+        "model_input_size": 72, 
+        "env_obs_size": 55, 
+        "n_agent": 5, "n_enemy": 6, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [6, 5]}, 
+            "2": {"name": "ally_feats", "size": [4, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 12}, 
+            "5": {"name": "agent_id", "size": 5}}
+    },
+
+    "6h_vs_8z_obs" : {
+        "model_input_size": 98, 
+        "env_obs_size": 78, 
+        "n_agent": 6, 
+        "n_enemy": 8, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [8, 6]}, 
+            "2": {"name": "ally_feats", "size": [5, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 14}, 
+            "5": {"name": "agent_id", "size": 6}
+        }
+    },
+
+    "8m_obs" : {
+        "model_input_size": 102, 
+        "env_obs_size": 80, 
+        "n_agent": 8, 
+        "n_enemy": 8, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [8, 5]}, 
+            "2": {"name": "ally_feats", "size": [7, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 14}, 
+            "5": {"name": "agent_id", "size": 8}
+        }
+    },
+
+    "8m_vs_9m_obs" : {
+        "model_input_size": 108, 
+        "env_obs_size": 85, 
+        "n_agent": 8, 
+        "n_enemy": 9, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [9, 5]}, 
+            "2": {"name": "ally_feats", "size": [7, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 15}, 
+            "5": {"name": "agent_id", "size": 8}
+        }
+    },
+
+    "10m_vs_11m_obs" : {
+        "model_input_size": 132, 
+        "env_obs_size": 105, 
+        "n_agent": 10, 
+        "n_enemy": 11, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [11, 5]}, 
+            "2": {"name": "ally_feats", "size": [9, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 17}, 
+            "5": {"name": "agent_id", "size": 10}
+        }
+    },
+
+    "25m_obs" : {
+        "model_input_size": 306, 
+        "env_obs_size": 250, 
+        "n_agent": 25, 
+        "n_enemy": 25, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [25, 5]}, 
+            "2": {"name": "ally_feats", "size": [24, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 31}, 
+            "5": {"name": "agent_id", "size": 25}
+        }
+    },
+
+    "27m_vs_30m_obs" : {
+        "model_input_size": 348, 
+        "env_obs_size": 285, 
+        "n_agent": 27, 
+        "n_enemy": 30, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [30, 5]}, 
+            "2": {"name": "ally_feats", "size": [26, 5]}, 
+            "3": {"name": "own_feats", "size": 1}, 
+            "4": {"name": "last_action", "size": 36}, 
+            "5": {"name": "agent_id", "size": 27}
+        }
+    },
+
+    "bane_vs_bane_obs" : {
+        "model_input_size": 390, 
+        "env_obs_size": 336, 
+        "n_agent": 24, 
+        "n_enemy": 24, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [24, 7]}, 
+            "2": {"name": "ally_feats", "size": [23, 7]}, 
+            "3": {"name": "own_feats", "size": 3}, 
+            "4": {"name": "last_action", "size": 30}, 
+            "5": {"name": "agent_id", "size": 24}
+        }
+    },
+
+    "corridor_obs" : {
+        "model_input_size": 192, 
+        "env_obs_size": 156, 
+        "n_agent": 6, 
+        "n_enemy": 24, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [24, 5]}, 
+            "2": {"name": "ally_feats", "size": [5, 6]}, 
+            "3": {"name": "own_feats", "size": 2}, 
+            "4": {"name": "last_action", "size": 30}, 
+            "5": {"name": "agent_id", "size": 6}
+        }
+    },
+
+    "MMM_obs" : {
+        "model_input_size": 186, 
+        "env_obs_size": 160, 
+        "n_agent": 10, 
+        "n_enemy": 10, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [10, 8]}, 
+            "2": {"name": "ally_feats", "size": [9, 8]}, 
+            "3": {"name": "own_feats", "size": 4}, 
+            "4": {"name": "last_action", "size": 16}, 
+            "5": {"name": "agent_id", "size": 10}
+        }
+    },
+
+    "MMM2_obs" : {
+        "model_input_size": 204, 
+        "env_obs_size": 176, 
+        "n_agent": 10, 
+        "n_enemy": 12, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [12, 8]}, 
+            "2": {"name": "ally_feats", "size": [9, 8]}, 
+            "3": {"name": "own_feats", "size": 4}, 
+            "4": {"name": "last_action", "size": 18}, 
+            "5": {"name": "agent_id", "size": 10}
+        }
+    },
+
+    "so_many_baneling_obs" : {
+        "model_input_size": 247, 
+        "env_obs_size": 202, 
+        "n_agent": 7, 
+        "n_enemy": 32, 
+        "model_input_compose": {
+            "0": {"name": "move_feats", "size": 4}, 
+            "1": {"name": "enemy_feats", "size": [32, 5]}, 
+            "2": {"name": "ally_feats", "size": [6, 6]}, 
+            "3": {"name": "own_feats", "size": 2}, 
+            "4": {"name": "last_action", "size": 38}, 
+            "5": {"name": "agent_id", "size": 7}
+        }
+    }
+}

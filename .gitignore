@@ -1,0 +1,11 @@
+3rdparty/
+__MACOSX/
+__pycache__/
+results/
+*.zip
+.DS_Store
+*.pyc
+.idea/
+./install_dependencies.sh
+./install_sc2.sh
+

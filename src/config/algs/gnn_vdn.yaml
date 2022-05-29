@@ -1,0 +1,37 @@
+# --- VDN specific parameters ---
+
+# use epsilon greedy action selector
+action_selector: "epsilon_greedy"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 100000 # 500000 for 6h_vs_8z
+
+runner: "parallel"
+batch_size_run: 8
+buffer_size: 5000
+batch_size: 128
+
+t_max: 10050000
+
+# update the target network every {} episodes
+target_update_interval: 200
+
+# use the Q_Learner to train
+mac: "hpn_mac"
+agent: "gnn_rnn"
+gnn_layer_num: 1
+agent_output_type: q
+
+learner: "nq_learner"
+mixer: "vdn"
+mixing_embed_dim: 32
+hypernet_embed: 64
+lr: 0.001 # Learning rate for agents
+td_lambda: 0.6
+optimizer: 'adam'
+q_lambda: False
+
+name: "gnn_vdn"
+
+obs_agent_id: True # Include the agent's one_hot id in the observation
+obs_last_action: False # Include the agent's last action (one_hot) in the observation
