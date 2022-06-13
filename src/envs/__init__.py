@@ -4,7 +4,7 @@ import os
 
 from .multiagentenv import MultiAgentEnv
 
-from .starcraft import StarCraft2Env
+from .starcraft import StarCraft2EnvWrapper
 
 
 def env_fn(env, **kwargs) -> MultiAgentEnv:
@@ -12,9 +12,8 @@ def env_fn(env, **kwargs) -> MultiAgentEnv:
 
 
 REGISTRY = {}
-REGISTRY["sc2"] = partial(env_fn, env=StarCraft2Env)
+REGISTRY["sc2"] = partial(env_fn, env=StarCraft2EnvWrapper)
 
 if sys.platform == "linux":
     os.environ.setdefault("SC2PATH",
                           os.path.join(os.getcwd(), "3rdparty", "StarCraftII"))
-    # os.environ.setdefault("SC2PATH", "~/StarCraftII")

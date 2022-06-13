@@ -1,1 +1,1 @@
-from .StarCraft2Env import StarCraft2Env
+from .StarCraft2EnvWrapper import StarCraft2EnvWrapper
