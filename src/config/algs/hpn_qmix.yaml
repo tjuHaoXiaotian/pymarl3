@@ -18,7 +18,8 @@ target_update_interval: 200
 
 # use the Q_Learner to train
 mac: "hpn_mac"
-agent: "hpn_rnn"
+#agent: "hpn_rnn"
+agent: "hpns_rnn"
 
 hpn_hyper_dim: 64
 hpn_hyper_activation: 'relu'
@@ -40,4 +41,6 @@ name: "hpn_qmix"
 
 obs_agent_id: True # Include the agent's one_hot id in the observation
 obs_last_action: False # Include the agent's last action (one_hot) in the observation
+
+q_transformer_head_num: 4
 

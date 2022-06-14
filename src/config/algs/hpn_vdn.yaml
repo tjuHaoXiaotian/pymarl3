@@ -18,7 +18,8 @@ target_update_interval: 200
 
 # use the Q_Learner to train
 mac: "hpn_mac"
-agent: "hpn_rnn"
+#agent: "hpn_rnn"
+agent: "hpns_rnn"
 
 hpn_hyper_dim: 64
 

@@ -2,6 +2,7 @@
 __MACOSX/
 __pycache__/
 results/
+./debug/
 *.zip
 .DS_Store
 *.pyc
