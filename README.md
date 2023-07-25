@@ -1,7 +1,9 @@
-# [ICLR-2023] Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks
+# [pymarl3](https://github.com/tjuHaoXiaotian/pymarl3): the source code of the ICLR-2023 paper `Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks`
 
-:rocket: **Achieve State-Of-The-Art Performance on SMAC-V1 and SMAC-V2** (without restricting the agent field-of-view
-and shooting range to a cone).
+We extend [**pymarl2**(https://github.com/hijkzzz/pymarl2)](https://github.com/hijkzzz/pymarl2) to **pymarl3**, adding the support for the [SMAC-V2 environment](https://github.com/oxwhirl/smacv2)  and equipping the MARL algorithms with permutation invariance and permutation equivariance properties. 
+
+
+:rocket: **The enhanced algorithm achieves State-Of-The-Art (SOTA) performance on SMAC-V1 and SMAC-V2** (without restricting the agent field-of-view and shooting range to a cone).
 
 * `[2023-07 update]: Commit the support for SMAC-V2.`
 
