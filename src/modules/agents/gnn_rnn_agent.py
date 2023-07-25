@@ -76,7 +76,7 @@ class GnnRNNAgent(nn.Module):
         super(GnnRNNAgent, self).__init__()
         self.args = args
         self.n_agents = args.n_agents
-        self.n_allies = self.n_agents - 1
+        self.n_allies = args.n_allies
         self.n_enemies = args.n_enemies
         self.n_actions = args.n_actions
 

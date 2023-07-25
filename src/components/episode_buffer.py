@@ -107,7 +107,7 @@ class EpisodeBatch:
 
             dtype = self.scheme[k].get("dtype", th.float32)
             v = th.tensor(v, dtype=dtype, device=self.device)
-            self._check_safe_view(v, target[k][_slices])
+            self._check_safe_view(k, v, target[k][_slices])
             target[k][_slices] = v.view_as(target[k][_slices])
 
             if k in self.preprocess:
@@ -117,12 +117,12 @@ class EpisodeBatch:
                     v = transform.transform(v)
                 target[new_k][_slices] = v.view_as(target[new_k][_slices])
 
-    def _check_safe_view(self, v, dest):
+    def _check_safe_view(self, k, v, dest):
         idx = len(v.shape) - 1
         for s in dest.shape[::-1]:
             if v.shape[idx] != s:
                 if s != 1:
-                    raise ValueError("Unsafe reshape of {} to {}".format(v.shape, dest.shape))
+                    raise ValueError("{}: unsafe reshape of {} to {}".format(k, v.shape, dest.shape))
             else:
                 idx -= 1
 

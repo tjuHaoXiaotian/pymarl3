@@ -2,6 +2,7 @@ from envs import REGISTRY as env_REGISTRY
 from functools import partial
 from components.episode_buffer import EpisodeBatch
 import numpy as np
+import time
 
 
 class EpisodeRunner:
@@ -10,9 +11,14 @@ class EpisodeRunner:
         self.args = args
         self.logger = logger
         self.batch_size = self.args.batch_size_run
-        assert self.batch_size == 1
+        if self.batch_size > 1:
+            self.batch_size = 1
+            logger.console_logger.warning("Reset the `batch_size_run' to 1...")
 
         self.env = env_REGISTRY[self.args.env](**self.args.env_args)
+        if self.args.evaluate:
+            print("Waiting the environment to start...")
+            time.sleep(5)
         self.episode_limit = self.env.episode_limit
         self.t = 0
 
@@ -27,8 +33,14 @@ class EpisodeRunner:
         self.log_train_stats_t = -1000000
 
     def setup(self, scheme, groups, preprocess, mac):
+        if self.args.use_cuda and not self.args.cpu_inference:
+            self.batch_device = self.args.device
+        else:
+            self.batch_device = "cpu" if self.args.buffer_cpu_only else self.args.device
+        print(" &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& self.batch_device={}".format(
+            self.batch_device))
         self.new_batch = partial(EpisodeBatch, scheme, groups, self.batch_size, self.episode_limit + 1,
-                                 preprocess=preprocess, device=self.args.device)
+                                 preprocess=preprocess, device=self.batch_device)
         self.mac = mac
 
     def get_env_info(self):
@@ -42,6 +54,9 @@ class EpisodeRunner:
 
     def reset(self):
         self.batch = self.new_batch()
+        if (self.args.use_cuda and self.args.cpu_inference) and str(self.mac.get_device()) != "cpu":
+            self.mac.cpu()  # copy model to cpu
+
         self.env.reset()
         self.t = 0
 
@@ -53,13 +68,11 @@ class EpisodeRunner:
         self.mac.init_hidden(batch_size=self.batch_size)
 
         while not terminated:
-
             pre_transition_data = {
                 "state": [self.env.get_state()],
                 "avail_actions": [self.env.get_avail_actions()],
                 "obs": [self.env.get_obs()]
             }
-
             self.batch.update(pre_transition_data, ts=self.t)
 
             # Pass the entire batch of experiences up till now to the agents
@@ -67,7 +80,7 @@ class EpisodeRunner:
             actions = self.mac.select_actions(self.batch, t_ep=self.t, t_env=self.t_env, test_mode=test_mode)
             # Fix memory leak
             cpu_actions = actions.to("cpu").numpy()
-            
+
             reward, terminated, env_info = self.env.step(actions[0])
             episode_return += reward
 
@@ -78,6 +91,10 @@ class EpisodeRunner:
             }
 
             self.batch.update(post_transition_data, ts=self.t)
+
+            if self.args.evaluate:
+                time.sleep(1)
+                print(self.t, post_transition_data["reward"])
 
             self.t += 1
 
@@ -93,7 +110,7 @@ class EpisodeRunner:
         # Fix memory leak
         cpu_actions = actions.to("cpu").numpy()
         self.batch.update({"actions": cpu_actions}, ts=self.t)
-        
+
         cur_stats = self.test_stats if test_mode else self.train_stats
         cur_returns = self.test_returns if test_mode else self.train_returns
         log_prefix = "test_" if test_mode else ""
@@ -125,5 +142,5 @@ class EpisodeRunner:
 
         for k, v in stats.items():
             if k != "n_episodes":
-                self.logger.log_stat(prefix + k + "_mean" , v/stats["n_episodes"], self.t_env)
+                self.logger.log_stat(prefix + k + "_mean", v / stats["n_episodes"], self.t_env)
         stats.clear()

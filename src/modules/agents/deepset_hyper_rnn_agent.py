@@ -8,7 +8,7 @@ class DeepSetHyperRNNAgent(nn.Module):
         super(DeepSetHyperRNNAgent, self).__init__()
         self.args = args
         self.n_agents = args.n_agents
-        self.n_allies = self.n_agents - 1
+        self.n_allies = args.n_allies
         self.n_enemies = args.n_enemies
         self.n_actions = args.n_actions
 
@@ -36,7 +36,7 @@ class DeepSetHyperRNNAgent(nn.Module):
 
         self.rnn = nn.GRUCell(args.rnn_hidden_dim, args.rnn_hidden_dim)
 
-        self.fc2_normal_actions = nn.Linear(args.rnn_hidden_dim, 6)  # (no_op, stop, up, down, right, left)
+        self.fc2_normal_actions = nn.Linear(args.rnn_hidden_dim, args.output_normal_actions)  # (no_op, stop, up, down, right, left)
         # Multiple entities (use hyper net to process these features to ensure permutation invariant)
         self.hyper_fc2_w_and_b_attack_actions = nn.Sequential(
             nn.Linear(self.enemy_feats_dim, args.hpn_hyper_dim),

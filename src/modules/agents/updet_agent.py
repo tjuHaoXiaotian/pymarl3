@@ -48,7 +48,7 @@ class UPDeT(nn.Module):
 
         q_enemies = self.q_basic(
             outputs[:, 1: 1 + self.args.n_enemies, :])  # [bs * n_agents, n_enemies, 32]->[bs * n_agents, n_enemies, 6]
-        q_enemies = q_enemies.mean(dim=-1, keepdim=False)  # 语义上不对！！！！！！！！！！！！！！！！！！！ （Move Action Q值的平均值没有含义）
+        q_enemies = q_enemies.mean(dim=-1, keepdim=False)  # The average of the Move Action Q
 
         # concat basic action Q with enemy attack Q
         q = torch.cat((q_basic_actions, q_enemies), 1)
@@ -110,7 +110,7 @@ class SelfAttention(nn.Module):
         # swap h, t back, unify heads
         out = out.transpose(1, 2).contiguous().view(b, t, h * e)
 
-        return self.unifyheads(out)
+        return self.unifyheads(out)  # [b, n_entities, e]
 
 
 class TransformerBlock(nn.Module):

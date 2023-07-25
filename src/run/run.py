@@ -16,14 +16,6 @@ from controllers import REGISTRY as mac_REGISTRY
 from components.episode_buffer import ReplayBuffer
 from components.transforms import OneHot
 
-from smac.env import StarCraft2Env
-
-
-def get_agent_own_state_size(env_args):
-    sc_env = StarCraft2Env(**env_args)
-    # qatten parameter setting (only use in qatten)
-    return 4 + sc_env.shield_bits_ally + sc_env.unit_type_bits
-
 
 def run(_run, _config, _log):
     # check args sanity
@@ -56,13 +48,18 @@ def run(_run, _config, _log):
                           ]
     env_name = args.env
     logdir = env_name
-    if env_name in ["sc2"]:
+    if env_name in ["sc2", "sc2_v2", ]:
         logdir = os.path.join("{}_{}-obs_aid={}-obs_act={}".format(
             logdir,
             args.env_args["map_name"],
             int(args.obs_agent_id),
             int(args.obs_last_action),
         ))
+        if env_name == "sc2_v2":
+            logdir = logdir + "-conic_fov={}".format(
+                "1-change_fov_by_move={}".format(
+                    int(args.env_args["change_fov_with_move"])) if args.env_args["conic_fov"] else "0"
+            )
     logdir = os.path.join(logdir,
                           "algo={}-agent={}".format(args.name, args.agent),
                           "env_n={}".format(
@@ -100,7 +97,8 @@ def run(_run, _config, _log):
                                   ))
         elif args.name in ["hpn_vdn", "hpn_qmix", "hpn_qplex"]:
             logdir = os.path.join(logdir,
-                                  "mixer={}-hpn_hyperdim={}-acti={}".format(
+                                  "head_n={}-mixer={}-hpn_hyperdim={}-acti={}".format(
+                                      args.hpn_head_num,
                                       args.mixer,
                                       args.hpn_hyper_dim,
                                       args.hpn_hyper_activation,
@@ -164,20 +162,22 @@ def run_sequential(args, logger):
     args.n_agents = env_info["n_agents"]
     args.n_actions = env_info["n_actions"]
     args.state_shape = env_info["state_shape"]
+    args.obs_shape = env_info["obs_shape"]
     args.accumulated_episodes = getattr(args, "accumulated_episodes", None)
 
-    if args.env in ["sc2"]:
+    if args.env in ["sc2", "sc2_v2", "gfootball"]:
+        if args.env in ["sc2", "sc2_v2"]:
+            args.output_normal_actions = env_info["n_normal_actions"]
         args.n_enemies = env_info["n_enemies"]
-        args.obs_ally_feats_size = env_info["obs_ally_feats_size"]
-        args.obs_enemy_feats_size = env_info["obs_enemy_feats_size"]
+        args.n_allies = env_info["n_allies"]
+        # args.obs_ally_feats_size = env_info["obs_ally_feats_size"]
+        # args.obs_enemy_feats_size = env_info["obs_enemy_feats_size"]
         args.state_ally_feats_size = env_info["state_ally_feats_size"]
         args.state_enemy_feats_size = env_info["state_enemy_feats_size"]
         args.obs_component = env_info["obs_component"]
         args.state_component = env_info["state_component"]
         args.map_type = env_info["map_type"]
-
-    if getattr(args, 'agent_own_state_size', False):
-        args.agent_own_state_size = get_agent_own_state_size(args.env_args)
+        args.agent_own_state_size = env_info["state_ally_feats_size"]
 
     # Default/Base scheme
     scheme = {
@@ -262,10 +262,10 @@ def run_sequential(args, logger):
             if episode_batch.batch_size > 0:  # After clearing the batch data, the batch may be empty.
                 buffer.insert_episode_batch(episode_batch)
             # print("Sample new batch cost {} seconds.".format(time.time() - t_start))
+            episode += args.batch_size_run
 
         if buffer.can_sample(args.batch_size):
-            next_episode = episode + args.batch_size_run
-            if args.accumulated_episodes and next_episode % args.accumulated_episodes != 0:
+            if args.accumulated_episodes and episode % args.accumulated_episodes != 0:
                 continue
 
             episode_sample = buffer.sample(args.batch_size)
@@ -304,8 +304,6 @@ def run_sequential(args, logger):
             # learner should handle saving/loading -- delegate actor save/load to mac,
             # use appropriate filenames to do critics, optimizer states
             learner.save_models(save_path)
-
-        episode += args.batch_size_run
 
         if (runner.t_env - last_log_T) >= args.log_interval:
             logger.log_stat("episode", episode, runner.t_env)

@@ -73,7 +73,7 @@ class HPN_RNNAgent(nn.Module):
         super(HPN_RNNAgent, self).__init__()
         self.args = args
         self.n_agents = args.n_agents
-        self.n_allies = self.n_agents - 1
+        self.n_allies = args.n_allies
         self.n_enemies = args.n_enemies
         self.n_actions = args.n_actions
         self.n_heads = args.hpn_head_num
@@ -113,7 +113,7 @@ class HPN_RNNAgent(nn.Module):
 
         self.rnn = nn.GRUCell(self.rnn_hidden_dim, self.rnn_hidden_dim)
 
-        self.output_normal_actions = nn.Linear(self.rnn_hidden_dim, 6)  # (no_op, stop, up, down, right, left)
+        self.output_normal_actions = nn.Linear(self.rnn_hidden_dim, args.output_normal_actions)  # (no_op, stop, up, down, right, left)
 
         # %%%%%%%%%%%%%%%%%%%%%% Hypernet-based APE output layer %%%%%%%%%%%%%%%%%%%%
         # Multiple entities (use hyper net to process these features to ensure permutation invariant)
@@ -234,7 +234,7 @@ class HPN_RNNAgent(nn.Module):
                 bs, self.n_agents, self.n_allies
             )  # [bs, n_agents, n_allies]
             # For the reason that medivac is the last indexed agent, so the rescue action idx -> [0, n_allies-1]
-            right_padding = th.ones_like(q_attack[:, -1:, self.n_allies:], requires_grad=False) * -9999999
+            right_padding = th.ones_like(q_attack[:, -1:, self.n_allies:], requires_grad=False) * (-9999999)
             modified_q_attack_of_medivac = th.cat([q_rescue[:, -1:, :], right_padding], dim=-1)
             # Merge
             q_attack = th.cat([q_attack[:, :-1], modified_q_attack_of_medivac], dim=1)

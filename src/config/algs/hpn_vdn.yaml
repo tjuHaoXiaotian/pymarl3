@@ -22,17 +22,16 @@ mac: "hpn_mac"
 agent: "hpns_rnn"
 
 hpn_hyper_dim: 64
-
 hpn_hyper_activation: 'relu'
-
 hpn_head_num: 1 # 2 for 3s_vs_5z and 6h_vs_8z
-
 agent_output_type: q
 
 learner: "nq_learner"
 mixer: "vdn"
 mixing_embed_dim: 32
 hypernet_embed: 64
+
+
 lr: 0.001 # Learning rate for agents
 td_lambda: 0.6
 optimizer: 'adam'

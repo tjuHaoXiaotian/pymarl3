@@ -1,8 +1,10 @@
-# Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks
+# [ICLR-2023] Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks
 
-:rocket: Achieve State-Of-The-Art Performance on SMAC.
+:rocket: **Achieve State-Of-The-Art Performance on SMAC-V1 and SMAC-V2** (without restricting the agent field-of-view and shooting range to a cone).
 
-## 1. Model Architecture of HyPerNetwork (HPN)
+* `[2023-07 update]: Commit the support for SMAC-V2.`
+
+## 1. Model Architecture of Hyper Policy Network (HPN)
 
 ![Agent permutation invariant network with hypernetworks](./doc/figure/API-HPN.png)
 
@@ -48,7 +50,7 @@ e.g., [VDN](https://arxiv.org/pdf/1706.05296?ref=https://githubhelp.com)
 converged performance. All parameters of HPN are simply trained end-to-end with backpropagation according to the
 corresponding RL loss function.
 
-## 2. Experimental Results
+## 2. Experimental Results on SAMC
 
 
 We mainly evaluate our methods on the challenging StarCraft II micromanagement benchmark [(SMAC)](https://github.com/oxwhirl/smac).
@@ -74,22 +76,35 @@ StarCraft 2 version: SC2.4.10. difficulty: 7.
 
 ### 2.1 Applying HPN to fine-tuned VDN and QMIX.
 
-![Applying HPN to fine-tuned VDN and QMIX](./doc/figure/exp_comparison_with_SOTA.png)
+![Applying HPN to fine-tuned VDN and QMIX](./doc/figure/exp_comparison_with_SOTA2.png)
 
 ### 2.2 Applying HPN to QPLEX and MAPPO.
 
 ![Applying HPN to QPLEX](./doc/figure/HPN-QPLEX.png)
 ![Applying HPN to MAPPO](./doc/figure/HPN-mappo.png)
 
-### 2.3 Comparison with baselines considering permutation invariance or permutation equivariance property
+### 2.3 Comparison with baselines considering permutation invariance or permutation equivariance.
 
 ![Comparison with Related Baselines](./doc/figure/exp_comparison_with_baselines.png)
 
-## 3. How to use the code?
+### 2.4 Transfer results.
+Apart from achieving PI and PE, another benefit of HPN is that it can naturally handle variable numbers of inputs and outputs. Therefore, as also stated in the conclusion section, HPN can be potentially used to design more efficient multitask learning and transfer learning algorithms. For example, we can directly transfer the learned HPN policy in one task to new tasks with different numbers of agents and improve the learning efficiency in the new tasks. Transfer learning results of 5m → 12m, 5m_vs_6m  →  8m_vs_10m, 3s_vs_3z  →  3s_vs_5z are shown in the following figures. We see that the previously trained HPN policies can serve as better initialization policies for new tasks.
+![Transfer previous policy v.s. learning from scratch](./doc/figure/MA_transfer.png)
 
-### Detailed Command line tool to reproduce all experimental results
+## 3. Experimental Results on SAMC-V2
+### 3.1 Changes of SMAC-V2.
+SMAC-v2 makes three major changes to SMAC: randomising start positions, randomising unit types, and restricting the agent field-of-view and shooting range to a cone. These first two changes increase more randomness to challenge contemporary MARL algorithms. The third change makes features harder to infer and adds the challenge that agents must actively gather information (require more efficient exploration). **Since our target is not to design more efficient exploration algorithms, we keep the field-of-view and attack of the agents a full circle as in SMAC-V1.**
 
-**Run an experiment**
+* **Random Start Positions:**  Random start positions come in two different types. First, there is the `surrounded` type, where the allied units are spawned in the middle of the map, and surrounded by enemy units. This challenges the allied units to overcome the enemies approach from multiple angles at once. Secondly, there are the `reflect_position` scenarios. These randomly select positions for the allied units, and then reflect their positions in the midpoint of the map to get the enemy spawn positions. Examples are shown in the figure below.  ![Random Start Positions](./doc/figure/smac_v2_random_start_positions.png)
+* **Random Unit Types:**  Battles in SMAC-V2 do not always feature units of the same type each time, as they did in SMAC. Instead, units are spawned randomly according to certain pre-fixed probabilities. Units in StarCraft II are split up into different races. Units from different races cannot be on the same team. For each of the three races (Protoss, Terran, and Zerg), SMAC-V2 uses three unit types. Detailed generation probabilities are shown in the figure below. ![Random Start Positions](./doc/figure/smac_v2_random_unit_types.png)
+
+### 3.2 Experimental Results.
+**Our HPN can naturally handle the two types of new challenges.** Thanks to the PI and PE properties, our HPN is more robust to the randomly changed start positions of the entities. Thanks to the entity-wise modeling and using hypernetwork to generate a customized `weight matrix` for each type of unit, HPN can handle the randomly generated unit types as well. The comparisons of HPN-VDN with VDN on three difficult scenarios across the three races (Protoss, Terran, and Zerg) are shown in the figures below. Results show that our HPN significantly improves the sample efficiency and the converged test win rates of the baseline VDN.
+![HPN-VDN v.s. VDN](./doc/figure/smac_v2_results.png)
+
+## 4. How to use the code?
+
+### 4.1 Detailed command lines to reproduce all experimental results (on SMAC-V1).
 
 ```shell
 # For SMAC, take the hpn_qmix, qmix, hpn_qplex and qplex over all hard and super-hard scenarios for example.
@@ -155,13 +170,33 @@ CUDA_VISIBLE_DEVICES="0" python src/main.py --config=hpn_qplex --env-config=sc2 
 CUDA_VISIBLE_DEVICES="0" python src/main.py --config=qplex --env-config=sc2 with env_args.map_name=bane_vs_bane obs_agent_id=True obs_last_action=True runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6
 ```
 
-## 4. Citation
+### 4.1 Detailed command lines to reproduce the experimental results (on SMAC-V2).
+```shell
+#%%%%%%%%%%%%%%%%%%% sc2_v2_terran %%%%%%%%%%%%%%%%%%%%%
+CUDA_VISIBLE_DEVICES="1" python src/main.py --config=hpn_vdn --env-config=sc2_v2_terran with obs_agent_id=True obs_last_action=False runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6 mixer=vdn
+
+CUDA_VISIBLE_DEVICES="0" python src/main.py --config=vdn --env-config=sc2_v2_terran with obs_agent_id=True obs_last_action=False runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6 mixer=vdn
+
+#%%%%%%%%%%%%%%%%%%% sc2_v2_protoss %%%%%%%%%%%%%%%%%%%%%
+CUDA_VISIBLE_DEVICES="0" python src/main.py --config=hpn_vdn --env-config=sc2_v2_protoss with obs_agent_id=True obs_last_action=False runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6 mixer=vdn
+
+CUDA_VISIBLE_DEVICES="1" python src/main.py --config=vdn --env-config=sc2_v2_protoss with obs_agent_id=True obs_last_action=False runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6 mixer=vdn
+
+#%%%%%%%%%%%%%%%%%%% sc2_v2_zerg %%%%%%%%%%%%%%%%%%%%%
+CUDA_VISIBLE_DEVICES="1" python src/main.py --config=hpn_vdn --env-config=sc2_v2_zerg with obs_agent_id=True obs_last_action=False runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6 mixer=vdn
+
+CUDA_VISIBLE_DEVICES="0" python src/main.py --config=vdn --env-config=sc2_v2_zerg with obs_agent_id=True obs_last_action=False runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6 mixer=vdn
+
+```
+
+
+## 5. Citation
 
 ```text
 @article{hao2022api,
-  title={API: Boosting Multi-Agent Reinforcement Learning via Agent-Permutation-Invariant Networks},
-  author={Hao, Xiaotian and Wang, Weixun and Mao, Hangyu and Yang, Yaodong and Li, Dong and Zheng, Yan and Wang, Zhen and Hao, Jianye},
-  journal={arXiv preprint arXiv:2203.05285},
+  title={Boosting Multi-Agent Reinforcement Learning via Agent-Permutation-Invariant Networks},
+  author={Hao Xiaotian, Mao Hangyu, Wang Weixun, Yang Yaodong, Li Dong, Zheng Yan, Wang Zhen and Hao Jianye},
+  journal={The Eleventh International Conference on Learning Representations.},
   year={2022}
 }
 ```

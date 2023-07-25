@@ -1,0 +1,75 @@
+env: sc2_v2
+
+env_args:
+  change_fov_with_move: True
+  #  %%%%%%%%%%%%%%%%%%%%%% new config compared to v1 %%%%%%%%%%%%%%%%%%%%%%
+  capability_config:
+    n_units: 5
+    team_gen:
+      dist_type: "weighted_teams"
+      unit_types:
+        - "marine"
+        - "marauder"
+        - "medivac"
+      weights:
+        - 0.45
+        - 0.45
+        - 0.1
+      exception_unit_types:
+        - "medivac"
+      observe: True
+
+    start_positions:
+      dist_type: "surrounded_and_reflect"
+      p: 0.5
+      n_enemies: 5
+      map_x: 32
+      map_y: 32
+
+  map_name: "10gen_terran"
+  obs_own_pos: True
+  obs_starcraft: True
+  conic_fov: True
+#  conic_fov: False
+  num_fov_actions: 12
+  kill_unit_step_mul: 2
+  fully_observable: False
+  #  %%%%%%%%%%%%%%%%%%%%%% new config compared to v1 %%%%%%%%%%%%%%%%%%%%%%
+
+
+  continuing_episode: False
+  difficulty: "7"
+  game_version: null
+  move_amount: 2
+  obs_all_health: True
+  obs_instead_of_state: False
+  obs_last_action: False
+  obs_own_health: True
+  obs_pathing_grid: False
+  obs_terrain_height: False
+  obs_timestep_number: False
+  reward_death_value: 10
+  reward_defeat: 0
+  reward_negative_scale: 0.5
+  reward_only_positive: True
+  reward_scale: True
+  reward_scale_rate: 20
+  reward_sparse: False
+  reward_win: 200
+  replay_dir: ""
+  replay_prefix: ""
+  state_last_action: True
+  state_timestep_number: False
+  step_mul: 8
+  seed: null
+  heuristic_ai: False
+  heuristic_rest: False
+  debug: False
+
+test_greedy: True
+test_nepisode: 32
+test_interval: 10000
+log_interval: 10000
+runner_log_interval: 10000
+learner_log_interval: 10000
+t_max: 2050000

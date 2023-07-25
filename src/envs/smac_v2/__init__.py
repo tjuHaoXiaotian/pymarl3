@@ -1,0 +1,1 @@
+from .StarCraft2Env2Wrapper import StarCraft2Env2Wrapper

@@ -40,7 +40,7 @@ class HPNS_RNNAgent(nn.Module):
         super(HPNS_RNNAgent, self).__init__()
         self.args = args
         self.n_agents = args.n_agents
-        self.n_allies = self.n_agents - 1
+        self.n_allies = args.n_allies
         self.n_enemies = args.n_enemies
         self.n_actions = args.n_actions
         self.n_heads = args.hpn_head_num
@@ -86,7 +86,7 @@ class HPNS_RNNAgent(nn.Module):
 
         self.unify_input_heads = Merger(self.n_heads, self.rnn_hidden_dim)
         self.rnn = nn.GRUCell(self.rnn_hidden_dim, self.rnn_hidden_dim)
-        self.fc2_normal_actions = nn.Linear(self.rnn_hidden_dim, 6)  # (no_op, stop, up, down, right, left)
+        self.fc2_normal_actions = nn.Linear(self.rnn_hidden_dim, args.output_normal_actions)  # (no_op, stop, up, down, right, left)
         self.unify_output_heads = Merger(self.n_heads, 1)
 
         # Reset parameters for hypernets

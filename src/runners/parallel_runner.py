@@ -24,6 +24,9 @@ class ParallelRunner:
             ps = Process(target=env_worker,
                          args=(worker_conn, CloudpickleWrapper(partial(env_fn, **self.args.env_args))))
             self.ps.append(ps)
+        if self.args.evaluate:
+            print("Waiting the environment to start...")
+            time.sleep(5)
 
         for p in self.ps:
             p.daemon = True
@@ -136,11 +139,11 @@ class ParallelRunner:
                         parent_conn.send(("step", cpu_actions[action_idx]))
                     action_idx += 1  # actions is not a list over every env
 
-            # Update envs_not_terminated
-            envs_not_terminated = [b_idx for b_idx, termed in enumerate(terminated) if not termed]
-            all_terminated = all(terminated)
-            if all_terminated:
-                break
+            # # Update envs_not_terminated
+            # envs_not_terminated = [b_idx for b_idx, termed in enumerate(terminated) if not termed]
+            # all_terminated = all(terminated)
+            # if all_terminated:
+            #     break
 
             # Post step data we will insert for the current timestep
             post_transition_data = {
@@ -153,7 +156,6 @@ class ParallelRunner:
                 "avail_actions": [],
                 "obs": []
             }
-
             # Receive data back for each unterminated env
             for idx, parent_conn in enumerate(self.parent_conns):
                 if not terminated[idx]:
@@ -183,14 +185,23 @@ class ParallelRunner:
             self.batch.update(post_transition_data, bs=envs_not_terminated, ts=self.t, mark_filled=False)
 
             if self.args.evaluate:
+                assert self.batch_size == 1
+                move = [["北", "南", "东", "西"][action - 2] if action > 1 and action < 6 else "action-{}".format(action)
+                        for action in cpu_actions[0]]
+                print(self.t, move, post_transition_data["reward"])
                 time.sleep(1)
-                print(self.t, post_transition_data["reward"])
 
             # Move onto the next timestep
             self.t += 1
 
             # Add the pre-transition data
             self.batch.update(pre_transition_data, bs=envs_not_terminated, ts=self.t, mark_filled=True)
+
+            # Update envs_not_terminated
+            envs_not_terminated = [b_idx for b_idx, termed in enumerate(terminated) if not termed]
+            all_terminated = all(terminated)
+            if all_terminated:
+                break
 
         if not test_mode:
             self.t_env += self.env_steps_this_run
