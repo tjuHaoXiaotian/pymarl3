@@ -1,7 +1,7 @@
 env: sc2_v2
 
 env_args:
-  change_fov_with_move: True
+  change_fov_with_move: False  # if True, we split the full field-of-view into 4 90-degree sectors (instead of 12 30-degree sectors), each of which corresponds to `move north, south, east, west'.
   #  %%%%%%%%%%%%%%%%%%%%%% new config compared to v1 %%%%%%%%%%%%%%%%%%%%%%
   capability_config:
     n_units: 5
@@ -29,8 +29,9 @@ env_args:
   map_name: "10gen_terran"
   obs_own_pos: True
   obs_starcraft: True
-  conic_fov: True
-#  conic_fov: False
+  #  conic_fov: True
+  # Since our target is not to design more efficient exploration algorithms, we keep the field-of-view and attack of the agents a full circle as in SMAC-V1.
+  conic_fov: False
   num_fov_actions: 12
   kill_unit_step_mul: 2
   fully_observable: False
