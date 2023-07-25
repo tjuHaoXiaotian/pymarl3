@@ -198,7 +198,7 @@ CUDA_VISIBLE_DEVICES="0" python src/main.py --config=hpn_qplex --env-config=sc2 
 CUDA_VISIBLE_DEVICES="0" python src/main.py --config=qplex --env-config=sc2 with env_args.map_name=bane_vs_bane obs_agent_id=True obs_last_action=True runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6
 ```
 
-### 4.1 Detailed command lines to reproduce the experimental results (on SMAC-V2).
+### 4.2 Detailed command lines to reproduce the experimental results (on SMAC-V2).
 
 ```shell
 #%%%%%%%%%%%%%%%%%%% sc2_v2_terran %%%%%%%%%%%%%%%%%%%%%
