@@ -1,11 +1,17 @@
-# [pymarl3](https://github.com/tjuHaoXiaotian/pymarl3): the source code of the ICLR-2023 paper `Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks`
+# [pymarl3](https://github.com/tjuHaoXiaotian/pymarl3): the source code of ICLR-2023 paper 
+**[Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks](https://openreview.net/pdf?id=OxNQXyZK-K8)**.
 
-We extend [**pymarl2**(https://github.com/hijkzzz/pymarl2)](https://github.com/hijkzzz/pymarl2) to **pymarl3**, adding the support for the [SMAC-V2 environment](https://github.com/oxwhirl/smacv2)  and equipping the MARL algorithms with permutation invariance and permutation equivariance properties. 
+We extend [**pymarl2** (https://github.com/hijkzzz/pymarl2)](https://github.com/hijkzzz/pymarl2) to **pymarl3**, adding the support for the [SMAC-V2 environment](https://github.com/oxwhirl/smacv2)  and equipping the MARL algorithms with permutation invariance and permutation equivariance properties. 
 
+## Key Features:
+* (1) **Support both [SMAC-V1](https://github.com/oxwhirl/smac) and [SMAC-V2](https://github.com/oxwhirl/smacv2)** (without the need of installing each environment separately). 
+  * ![SMAC-V2 configs](./doc/figure/smac_v2_config.png)
+* (2) Equip the MARL algorithms of [**pymarl2**](https://github.com/hijkzzz/pymarl2) with the **permutation invariance (PI) and permutation equivariance (PE)** properties. The proposed PI and PE model architectures **can be easily plugged into any existing MARL algorithms and boost their performance**.
+* (3) :rocket: **The enhanced algorithm achieves State-Of-The-Art (SOTA) performance on SMAC-V1 and SMAC-V2** (without restricting the agent field-of-view and shooting range to a cone).
 
-:rocket: **The enhanced algorithm achieves State-Of-The-Art (SOTA) performance on SMAC-V1 and SMAC-V2** (without restricting the agent field-of-view and shooting range to a cone).
-
-* `[2023-07 update]: Commit the support for SMAC-V2.`
+```
+[2023-07 update]: Commit the support for SMAC-V2.
+```
 
 ## 1. Model Architecture of Hyper Policy Network (HPN)
 
