@@ -8,12 +8,14 @@ try:
     smac = True
     from .smac_v1 import StarCraft2EnvWrapper
 except Exception as e:
+    print(e)
     smac = False
 
 try:
     smacv2 = True
     from .smac_v2 import StarCraft2Env2Wrapper
 except Exception as e:
+    print(e)
     smacv2 = False
 
 
@@ -38,3 +40,5 @@ if smacv2:
                               os.path.join(os.getcwd(), "3rdparty", "StarCraftII"))
 else:
     print("SMAC V2 is not supported...")
+
+print("Supported environments:", REGISTRY)

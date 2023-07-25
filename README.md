@@ -1,6 +1,7 @@
 # [ICLR-2023] Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks
 
-:rocket: **Achieve State-Of-The-Art Performance on SMAC-V1 and SMAC-V2** (without restricting the agent field-of-view and shooting range to a cone).
+:rocket: **Achieve State-Of-The-Art Performance on SMAC-V1 and SMAC-V2** (without restricting the agent field-of-view
+and shooting range to a cone).
 
 * `[2023-07 update]: Commit the support for SMAC-V2.`
 
@@ -50,10 +51,10 @@ e.g., [VDN](https://arxiv.org/pdf/1706.05296?ref=https://githubhelp.com)
 converged performance. All parameters of HPN are simply trained end-to-end with backpropagation according to the
 corresponding RL loss function.
 
-## 2. Experimental Results on SAMC
+## 2. Experimental Results on SAMC-V1
 
-
-We mainly evaluate our methods on the challenging StarCraft II micromanagement benchmark [(SMAC)](https://github.com/oxwhirl/smac).
+We mainly evaluate our methods on the challenging StarCraft II micromanagement
+benchmark [(SMAC)](https://github.com/oxwhirl/smac).
 
 ****
 
@@ -88,18 +89,45 @@ StarCraft 2 version: SC2.4.10. difficulty: 7.
 ![Comparison with Related Baselines](./doc/figure/exp_comparison_with_baselines.png)
 
 ### 2.4 Transfer results.
-Apart from achieving PI and PE, another benefit of HPN is that it can naturally handle variable numbers of inputs and outputs. Therefore, as also stated in the conclusion section, HPN can be potentially used to design more efficient multitask learning and transfer learning algorithms. For example, we can directly transfer the learned HPN policy in one task to new tasks with different numbers of agents and improve the learning efficiency in the new tasks. Transfer learning results of 5m → 12m, 5m_vs_6m  →  8m_vs_10m, 3s_vs_3z  →  3s_vs_5z are shown in the following figures. We see that the previously trained HPN policies can serve as better initialization policies for new tasks.
+
+Apart from achieving PI and PE, another benefit of HPN is that it can naturally handle variable numbers of inputs and
+outputs. Therefore, as also stated in the conclusion section, HPN can be potentially used to design more efficient
+multitask learning and transfer learning algorithms. For example, we can directly transfer the learned HPN policy in one
+task to new tasks with different numbers of agents and improve the learning efficiency in the new tasks. Transfer
+learning results of 5m → 12m, 5m_vs_6m → 8m_vs_10m, 3s_vs_3z → 3s_vs_5z are shown in the following figures. We see that
+the previously trained HPN policies can serve as better initialization policies for new tasks.
 ![Transfer previous policy v.s. learning from scratch](./doc/figure/MA_transfer.png)
 
 ## 3. Experimental Results on SAMC-V2
-### 3.1 Changes of SMAC-V2.
-SMAC-v2 makes three major changes to SMAC: randomising start positions, randomising unit types, and restricting the agent field-of-view and shooting range to a cone. These first two changes increase more randomness to challenge contemporary MARL algorithms. The third change makes features harder to infer and adds the challenge that agents must actively gather information (require more efficient exploration). **Since our target is not to design more efficient exploration algorithms, we keep the field-of-view and attack of the agents a full circle as in SMAC-V1.**
 
-* **Random Start Positions:**  Random start positions come in two different types. First, there is the `surrounded` type, where the allied units are spawned in the middle of the map, and surrounded by enemy units. This challenges the allied units to overcome the enemies approach from multiple angles at once. Secondly, there are the `reflect_position` scenarios. These randomly select positions for the allied units, and then reflect their positions in the midpoint of the map to get the enemy spawn positions. Examples are shown in the figure below.  ![Random Start Positions](./doc/figure/smac_v2_random_start_positions.png)
-* **Random Unit Types:**  Battles in SMAC-V2 do not always feature units of the same type each time, as they did in SMAC. Instead, units are spawned randomly according to certain pre-fixed probabilities. Units in StarCraft II are split up into different races. Units from different races cannot be on the same team. For each of the three races (Protoss, Terran, and Zerg), SMAC-V2 uses three unit types. Detailed generation probabilities are shown in the figure below. ![Random Start Positions](./doc/figure/smac_v2_random_unit_types.png)
+### 3.1 Changes of SMAC-V2.
+
+SMAC-v2 makes three major changes to SMAC: randomising start positions, randomising unit types, and restricting the
+agent field-of-view and shooting range to a cone. These first two changes increase more randomness to challenge
+contemporary MARL algorithms. The third change makes features harder to infer and adds the challenge that agents must
+actively gather information (require more efficient exploration). **Since our target is not to design more efficient
+exploration algorithms, we keep the field-of-view and attack of the agents a full circle as in SMAC-V1.**
+
+* **Random Start Positions:**  Random start positions come in two different types. First, there is the `surrounded`
+  type, where the allied units are spawned in the middle of the map, and surrounded by enemy units. This challenges the
+  allied units to overcome the enemies approach from multiple angles at once. Secondly, there are the `reflect_position`
+  scenarios. These randomly select positions for the allied units, and then reflect their positions in the midpoint of
+  the map to get the enemy spawn positions. Examples are shown in the figure
+  below.  ![Random Start Positions](./doc/figure/smac_v2_random_start_positions.png)
+* **Random Unit Types:**  Battles in SMAC-V2 do not always feature units of the same type each time, as they did in
+  SMAC. Instead, units are spawned randomly according to certain pre-fixed probabilities. Units in StarCraft II are
+  split up into different races. Units from different races cannot be on the same team. For each of the three races (
+  Protoss, Terran, and Zerg), SMAC-V2 uses three unit types. Detailed generation probabilities are shown in the figure
+  below. ![Random Start Positions](./doc/figure/smac_v2_random_unit_types.png)
 
 ### 3.2 Experimental Results.
-**Our HPN can naturally handle the two types of new challenges.** Thanks to the PI and PE properties, our HPN is more robust to the randomly changed start positions of the entities. Thanks to the entity-wise modeling and using hypernetwork to generate a customized `weight matrix` for each type of unit, HPN can handle the randomly generated unit types as well. The comparisons of HPN-VDN with VDN on three difficult scenarios across the three races (Protoss, Terran, and Zerg) are shown in the figures below. Results show that our HPN significantly improves the sample efficiency and the converged test win rates of the baseline VDN.
+
+**Our HPN can naturally handle the two types of new challenges.** Thanks to the PI and PE properties, our HPN is more
+robust to the randomly changed start positions of the entities. Thanks to the entity-wise modeling and using
+hypernetwork to generate a customized `weight matrix` for each type of unit, HPN can handle the randomly generated unit
+types as well. The comparisons of HPN-VDN with VDN on three difficult scenarios across the three races (Protoss, Terran,
+and Zerg) are shown in the figures below. Results show that our HPN significantly improves the sample efficiency and the
+converged test win rates of the baseline VDN.
 ![HPN-VDN v.s. VDN](./doc/figure/smac_v2_results.png)
 
 ## 4. How to use the code?
@@ -171,6 +199,7 @@ CUDA_VISIBLE_DEVICES="0" python src/main.py --config=qplex --env-config=sc2 with
 ```
 
 ### 4.1 Detailed command lines to reproduce the experimental results (on SMAC-V2).
+
 ```shell
 #%%%%%%%%%%%%%%%%%%% sc2_v2_terran %%%%%%%%%%%%%%%%%%%%%
 CUDA_VISIBLE_DEVICES="1" python src/main.py --config=hpn_vdn --env-config=sc2_v2_terran with obs_agent_id=True obs_last_action=False runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6 mixer=vdn
@@ -188,7 +217,6 @@ CUDA_VISIBLE_DEVICES="1" python src/main.py --config=hpn_vdn --env-config=sc2_v2
 CUDA_VISIBLE_DEVICES="0" python src/main.py --config=vdn --env-config=sc2_v2_zerg with obs_agent_id=True obs_last_action=False runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6 mixer=vdn
 
 ```
-
 
 ## 5. Citation
 
