@@ -231,7 +231,7 @@ CUDA_VISIBLE_DEVICES="0" python src/main.py --config=vdn --env-config=sc2_v2_zer
 ```text
 @article{hao2022api,
   title={Boosting Multi-Agent Reinforcement Learning via Agent-Permutation-Invariant Networks},
-  author={Hao Xiaotian, Mao Hangyu, Wang Weixun, Yang Yaodong, Li Dong, Zheng Yan, Wang Zhen and Hao Jianye},
+  author={Hao Jianye, Hao Xiaotian, Mao Hangyu, Wang Weixun, Yang Yaodong, Li Dong, Zheng Yan, Wang Zhen},
   journal={The Eleventh International Conference on Learning Representations.},
   year={2022}
 }
