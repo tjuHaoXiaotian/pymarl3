@@ -1,4 +1,4 @@
-# [pymarl3](https://github.com/tjuHaoXiaotian/pymarl3): the source code of ICLR-2023 paper 
+# [pymarl3](https://github.com/tjuHaoXiaotian/pymarl3): the source code of the ICLR-2023 paper 
 **[Boosting Multi-Agent Reinforcement Learning via Permutation Invariant and Permutation Equivariant Networks](https://openreview.net/pdf?id=OxNQXyZK-K8)**.
 
 We extend [**pymarl2** (https://github.com/hijkzzz/pymarl2)](https://github.com/hijkzzz/pymarl2) to **pymarl3**, adding the support for the [SMAC-V2 environment](https://github.com/oxwhirl/smacv2)  and equipping the MARL algorithms with permutation invariance and permutation equivariance properties. 
