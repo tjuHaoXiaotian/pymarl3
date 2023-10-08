@@ -140,7 +140,22 @@ converged test win rates of the baseline VDN.
 
 ## 4. How to use the code?
 
-### 4.1 Detailed command lines to reproduce all experimental results (on SMAC-V1).
+### 4.1 Install this repository.
+```shell
+# Step-1: Clone the repository and enter the folder.
+git clone git@github.com:tjuHaoXiaotian/pymarl3.git
+cd pymarl3
+
+# Step-2: Install StarCraftII add the custom maps.
+chmod +x install_sc2.sh
+./install_sc2.sh
+
+# Step-3: Install PyTorch and other Python packages.
+chmod +x install_dependencies.sh
+./install_dependencies.sh
+```
+
+### 4.2 Detailed command lines to reproduce all experimental results (on SMAC-V1).
 
 ```shell
 # For SMAC, take the hpn_qmix, qmix, hpn_qplex and qplex over all hard and super-hard scenarios for example.
@@ -206,7 +221,7 @@ CUDA_VISIBLE_DEVICES="0" python src/main.py --config=hpn_qplex --env-config=sc2 
 CUDA_VISIBLE_DEVICES="0" python src/main.py --config=qplex --env-config=sc2 with env_args.map_name=bane_vs_bane obs_agent_id=True obs_last_action=True runner=parallel batch_size_run=8 buffer_size=5000 t_max=10050000 epsilon_anneal_time=100000 batch_size=128 td_lambda=0.6
 ```
 
-### 4.2 Detailed command lines to reproduce the experimental results (on SMAC-V2).
+### 4.3 Detailed command lines to reproduce the experimental results (on SMAC-V2).
 
 ```shell
 #%%%%%%%%%%%%%%%%%%% sc2_v2_terran %%%%%%%%%%%%%%%%%%%%%
