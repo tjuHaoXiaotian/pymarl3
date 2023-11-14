@@ -11,7 +11,7 @@ pip install sacred numpy scipy gym==0.10.8 matplotlib seaborn \
 
 # pip install git+https://github.com/oxwhirl/smac.git
 # Do not need install SMAC anymore. We have integrated SMAC-V1 and SMAC-V2 in pymarl3/envs.
-pip install protobuf<3.21
-pip install pysc2>=3.0.0
-pip install s2clientprotocol>=4.10.1.75800.0
-pip install absl-py>=0.1.0
+pip install "protobuf<3.21"
+pip install "pysc2>=3.0.0"
+pip install "s2clientprotocol>=4.10.1.75800.0"
+pip install "absl-py>=0.1.0"
